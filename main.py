@@ -3,6 +3,7 @@ from collections import defaultdict
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment
 
+# final const
 INPUT_FILE = "trainings.txt"
 SHEET_NAME = "Расписание"
 HEADERS = ["Тренер", "Вид спорта", "Дата и время"]
@@ -55,7 +56,6 @@ def parse_from_list(lines):
 
 # Создание Excel
 def write_excel_for_hall(hall_name: str, rows: list):
-
     wb = Workbook()
     ws = wb.active
     ws.title = SHEET_NAME
@@ -81,6 +81,7 @@ def write_excel_for_hall(hall_name: str, rows: list):
     wb.save(filename)
     print(f"Создан файл: {filename}")
 
+
 # Создание всех Excel
 def write_all_excel(by_hall: dict):
     for hall in HALLS:
@@ -93,6 +94,6 @@ def main():
     by_hall = parse_from_list(lines)
     write_all_excel(by_hall)
 
+
 if __name__ == "__main__":
     main()
-
