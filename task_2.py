@@ -22,6 +22,7 @@ def create_workbook(title):
 data_about_workout = []
 halls = []
 
+
 with open("trainings.txt", "r", encoding="utf-8") as data:
     lines = data.readlines()
     for line in lines:
@@ -44,13 +45,13 @@ for hall in halls:
     create_workbook(hall)
 
 data_about_workout = sorted(data_about_workout, key=lambda x: x['Зал'])
-print(data_about_workout)
-
 
 for hall in halls:
     n = 1
     for inf in data_about_workout:
-        while inf['Зал'] == hall:
+        if inf['Зал'] != hall:
+            continue
+        else:
             writer = load_workbook(f'{inf['Зал']}.xlsx')
             writer_sheet = writer.active
             writer_sheet[f'A{n+1}'] = inf['Тренер']
@@ -59,5 +60,5 @@ for hall in halls:
             writer.save(f'{inf['Зал']}.xlsx')
             n += 1
             print(inf)
-            break
+
 
