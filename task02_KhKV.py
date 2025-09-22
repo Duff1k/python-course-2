@@ -24,9 +24,9 @@ for gym_num in range(1, 5):
     for clmn, vl in enumerate(headers, start=1):
         cell = ws.cell(row=1, column=clmn, value=vl)
         cell.font = Font(bold=True)
-    for idx, (dt, row) in enumerate(data, start=2):
+    for row_num, (dt, row) in enumerate(data, start=2):
         for clmn, vl in enumerate(row, start=1):
-            ws.cell(row=idx, column=clmn, value=vl)
+            ws.cell(row=row_num, column=clmn, value=vl)
     for clmn in range(1, 4):
         ws.column_dimensions[get_column_letter(clmn)].width = 20
     wb.save(f'Зал {gym_num}.xlsx')
