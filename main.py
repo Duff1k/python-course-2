@@ -7,6 +7,7 @@ from openpyxl.utils import get_column_letter
 BASE_DIR = Path(__file__).resolve().parent
 TXT_PATH = BASE_DIR / "trainings.txt"
 OUT_DIR = BASE_DIR / 'out'
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 TARGET_HALLS = [f'Зал {i}' for i in range(1,5)]
 HEADERS = ["Тренер", "Вид спорта", "Дата и время"]
@@ -16,11 +17,8 @@ def parse_line(line: str):
     parts = [part.strip() for part in line.split('|')]
     if len(parts) != 4:
         return None
-    dt_str_part, sport_part, coach_part, hall_part = parts
-    sport = sport_part.strip()
+    dt_str, sport, coach_part, hall = parts
     coach = coach_part.replace('Тренер:', "").strip()
-    hall = hall_part.strip()
-    dt_str = dt_str_part.strip()
     try:
         dt = datetime.strptime(dt_str, '%Y-%m-%d %H:%M')
     except ValueError:
@@ -30,12 +28,12 @@ def parse_line(line: str):
 by_hall = {h: [] for h in TARGET_HALLS}
 
 with open(TXT_PATH, 'r', encoding='utf-8' ) as f:
-    for i,row in enumerate(f):
+    for row in f:
         line = row.strip()
+        if not line:
+            continue
         rec = parse_line(line)
         if not rec:
-            continue
-        if not line:
             continue
         if rec['hall'] in by_hall:
             by_hall[rec['hall']].append(rec)
